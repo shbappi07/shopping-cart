@@ -25,11 +25,11 @@
 
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button onclick="itemCalculations('number-of-phn',false)" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="number-of-phn-items" type="text" class="form-control text-center" value="1">
+                           <button onclick="itemCalculations('number-of-phn',true)" class="btn btn-default"><i class="fas fa-plus"></i></button>
                         </div>
-                        <h5>$1219</h5>
+                        <h5 id="number-of-phn-price">$1219</h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -43,12 +43,12 @@
                      </div>
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button onclick="itemCalculations('number-of-case',false);" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="number-of-case-items" type="text" class="form-control text-center" value="1">
+                           <button onclick="itemCalculations('number-of-case',true);" class="btn btn-default"><i class="fas fa-plus"></i></button>
 
                         </div>
-                        <h5>$59</h5>
+                        <h5 id="number-of-case-price">$59</h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -64,9 +64,9 @@
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$1,278</h5>
-                        <h5>$0</h5>
-                        <h5>$1,278</h5>
+                        <h5 id="total-cost">$1,278</h5>
+                        <h5 id="tax-amount">$0</h5>
+                        <h5 id="grand-total">$1,278</h5>
                      </div>
                   </div>
                </div>
@@ -77,6 +77,108 @@
          </div>
       </div>
    </section>
+
+
+
+   <script>
+      // javaScript  start
+
+      //combined function
+      function itemCalculations(product, isIncrease){
+         const productItem = document.getElementById(product+'-items');
+         const productItemNum = parseInt(productItem.value);
+         
+         // const numberOfCaseItemDecrease = numberOfCaseItemNum - 1;
+         let productCurrentItems = productItemNum;
+         if (isIncrease == true) {
+            productCurrentItems = productItemNum + 1;
+         }
+         if (isIncrease == false && productCurrentItems > 0) {
+            productCurrentItems = productItemNum - 1;
+         }
+         productItem.value = productCurrentItems;
+         // const phnPrice = productCurrentItems * 1219;
+         let productPrice = 0;
+         if (product == 'number-of-phn') {
+            productPrice = productCurrentItems * 1219;
+         }
+         if (product == 'number-of-case') {
+            productPrice = productCurrentItems * 59;
+         }
+         document.getElementById(product+"-price").innerText = '$'+productPrice;
+         calculateTotal();
+      }
+
+
+      // final price calculation
+      function calculateTotal(){
+         const phnTotalNum = getInputValue('number-of-phn');
+
+         const caseTotalNum = getInputValue('number-of-case');
+
+         const totalPrice = phnTotalNum * 1219 + caseTotalNum * 59;
+         document.getElementById("total-cost").innerText = '$' + totalPrice;
+         
+         const tax = Math.round(totalPrice * .1);
+         document.getElementById("tax-amount").innerText = '$'+tax;
+
+         const grandTotal = totalPrice + tax;
+         document.getElementById("grand-total").innerText = '$'+ grandTotal;
+
+      }
+
+      function getInputValue(product){
+         const productTotal = document.getElementById(product+'-items');
+         const productTotalNum = parseInt(productTotal.value);
+         return productTotalNum;
+      }
+
+
+      // number-of-phn
+
+
+      //shopping calculation start for phone
+      // function phnItemCalculations(isIncrease){
+      //    const numberOfPhnItem = document.getElementById("number-of-phn-items");
+      //    const numberOfPhnItemNum = parseInt(numberOfPhnItem.value);
+      //    // const numberOfCaseItemDecrease = numberOfCaseItemNum - 1;
+      //    let currentNumberOfPhnItems = numberOfPhnItemNum;
+      //    if (isIncrease == true) {
+      //       currentNumberOfPhnItems = numberOfPhnItemNum + 1;
+      //    }
+      //    if (isIncrease == false && currentNumberOfPhnItems > 0) {
+      //       currentNumberOfPhnItems = numberOfPhnItemNum - 1;
+      //    }
+      //    numberOfPhnItem.value = currentNumberOfPhnItems;
+      //    const phnPrice = currentNumberOfPhnItems * 1219;
+      //    document.getElementById("phn-price").innerText = '$'+phnPrice;
+      // }
+
+
+
+
+      // //shopping card plus minus start for case
+
+      
+      // function caseItemCalculations(isIncrease){
+      //    const numberOfCaseItem = document.getElementById("number-of-case-items");
+      //    const numberOfCaseItemNum = parseInt(numberOfCaseItem.value);
+      //    // const numberOfCaseItemDecrease = numberOfCaseItemNum - 1;
+      //    let currentNumberOfCaseItems = numberOfCaseItemNum;
+      //    if (isIncrease == true) {
+      //       currentNumberOfCaseItems = numberOfCaseItemNum + 1;
+      //    }
+      //    if (isIncrease == false && currentNumberOfCaseItems > 0) {
+      //       currentNumberOfCaseItems = numberOfCaseItemNum - 1;
+      //    }
+      //    numberOfCaseItem.value = currentNumberOfCaseItems;
+      //    const casePrice = currentNumberOfCaseItems * 59;
+      //    document.getElementById("case-price").innerText = '$'+casePrice;
+      // }
+
+      
+   </script>
+
 </body>
 
 </html>
